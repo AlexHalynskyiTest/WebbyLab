@@ -1,7 +1,6 @@
 import {
   HOME_PATH,
   MOVIES_PATH,
-  SIGN_UP_PATH,
   SIGN_IN_PATH,
   PROFILE_PATH,
 } from '../../router/route-types';
@@ -10,7 +9,6 @@ import {
   MoviesIcon,
   ProfileIcon,
   SignInIcon,
-  SignUpIcon,
 } from './Icons';
 
 export const navigation = [
@@ -33,10 +31,5 @@ export const navigation = [
     name: 'Sign In',
     link: SIGN_IN_PATH,
     Icon: SignInIcon,
-  },
-  {
-    name: 'Sign Up',
-    link: SIGN_UP_PATH,
-    Icon: SignUpIcon,
   },
 ];

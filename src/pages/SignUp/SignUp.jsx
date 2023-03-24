@@ -1,61 +1,58 @@
 import React from 'react';
 import useRegister from '../../api/useRegister';
 import { useAuth } from '../../hooks/useAuth';
-import useLogout from '../../hooks/useLogout';
-import useLogin from "../../api/useLogin";
-import useGetMovies from "../../api/useGetMovies";
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import signUpSchema from './validationSchema';
+import Signed from '../../components/Signed/Signed';
+import { useNavigate } from 'react-router-dom';
+import { MOVIES_PATH } from '../../router/route-types';
 
 const SignUp = () => {
   const register = useRegister();
-  const { isAuth, name, email } = useAuth();
-  const logout = useLogout();
-  const login = useLogin();
-  const getMovies = useGetMovies();
+  const { isAuth } = useAuth();
+  const navigate = useNavigate();
 
-  const user = {
-    email: "ohalynskyi7@gmail.com",
-    name: "Alex Halynskyi",
-    password: "1234",
-    confirmPassword: "1234"
-  };
-
-  const userLogin = {
-    email: "ohalynskyi1@gmail.com",
-    name: "Alex Halynskyi",
-    password: "1234",
-  };
-
-  const handleClick = () => {
-    register(user);
-  }
-
-  const handleGetMovies = async () => {
-    const response = await getMovies();
-    console.log(response?.data);
+  const handleRegister = (values) => {
+    register(values)
+    navigate(MOVIES_PATH)
   }
 
   return (
     isAuth
-      ? <div>
-        <div>Name: {name}</div>
-        <div>Email: {email}</div>
-        <button onClick={() => logout()}>Logout</button>
-        <button onClick={handleGetMovies}>Get movies</button>
-      </div>
+      ? <Signed />
       : <div>
-      <div>
-        Sign Up
+        <Formik
+          initialValues={{ name: '', email: '', password: '', confirmPassword: '' }}
+          validationSchema={signUpSchema}
+          onSubmit={handleRegister}
+        >
+          <Form>
+            <div>
+              <div>Name</div>
+              <Field name="name" />
+              <ErrorMessage name="name" component="div" />
+            </div>
+            <div>
+              <div>E-mail</div>
+              <Field type="email" name="email" />
+              <ErrorMessage name="email" component="div" />
+            </div>
+            <div>
+              <div>Password</div>
+              <Field type="password" name="password" />
+              <ErrorMessage name="password" component="div" />
+            </div>
+            <div>
+              <div>Repeat password</div>
+              <Field type="password" name="confirmPassword" />
+              <ErrorMessage name="confirmPassword" component="div" />
+            </div>
+            <button type="submit" >
+              Create an account
+            </button>
+          </Form>
+        </Formik>
       </div>
-      <div>
-        <button onClick={handleClick}>
-          Register
-        </button>
-        <button onClick={() => login(userLogin)}>
-          Login
-        </button>
-        <button onClick={handleGetMovies}>Get movies</button>
-      </div>
-    </div>
   );
 };
 
