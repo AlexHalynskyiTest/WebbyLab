@@ -1,6 +1,7 @@
 import { useDispatch } from 'react-redux';
 import useApi from './api';
 import { MOVIES_PATH } from './endpoints';
+import { moviesLoading, setMovies } from '../redux/slices/moviesSlice';
 
 const useGetMovies = () => {
   const api = useApi();
@@ -11,10 +12,10 @@ const useGetMovies = () => {
       console.error('Not authorized');
       return;
     }
+    dispatch(moviesLoading());
     const { data } = await api.get(MOVIES_PATH);
-    return data
+    dispatch(setMovies(data.data));
   }
-
   return getMovies;
 };
 

@@ -1,10 +1,10 @@
 import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import signInSchema from './validationSchema';
 import useLogin from '../../api/useLogin';
 import { useAuth } from '../../hooks/useAuth';
 import Signed from '../../components/Signed/Signed';
-import { Link, useNavigate } from 'react-router-dom';
 import { SIGN_UP_PATH, MOVIES_PATH } from '../../router/route-types';
 
 const SignIn = () => {
@@ -12,8 +12,8 @@ const SignIn = () => {
   const { isAuth } = useAuth();
   const navigate = useNavigate();
 
-  const handleSignIn = (values) => {
-    login(values)
+  const handleSignIn = async (values) => {
+    await login(values)
     navigate(MOVIES_PATH)
   }
 
