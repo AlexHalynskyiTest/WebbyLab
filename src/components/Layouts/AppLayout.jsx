@@ -6,7 +6,7 @@ const AppLayout = () => {
   return (
     <>
       <NavBar />
-      <div className="sm:ml-64">
+      <div className="sm:ml-64 w-1/5 p-4">
         <Outlet />
       </div>
     </>

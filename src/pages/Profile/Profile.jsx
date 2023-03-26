@@ -11,7 +11,7 @@ const Profile = () => {
       {!isAuth && <NotSigned />}
       {isAuth &&
         <div>
-          <div>Your profile</div>
+          <div className="block mb-2 text-xl font-medium text-gray-900">Your profile</div>
           <div>Name: {name}</div>
           <div>E-mail: {email}</div>
           <LogoutButton/>

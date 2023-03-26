@@ -5,6 +5,7 @@ import { useAuth } from '../../hooks/useAuth';
 import BackButton from '../../components/BackButton/BackButton';
 import useImportMovies from '../../api/useImportMovies';
 import { MOVIES_PATH } from '../../router/route-types';
+import Button from "../../ui/Button/Button";
 
 const ImportMovies = () => {
   const { isAuth } = useAuth();
@@ -29,7 +30,7 @@ const ImportMovies = () => {
         <div>
           <div><BackButton /></div>
           <div><input type="file" ref={ref} onChange={handleImportFile} /></div>
-          <div><button onClick={handleSaveFile}>Save movies</button></div>
+          <div><Button name="Save movies" onClick={handleSaveFile}/></div>
         </div>
       }
     </div>

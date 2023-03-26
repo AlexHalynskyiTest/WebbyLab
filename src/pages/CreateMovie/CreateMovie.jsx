@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { ErrorMessage, Field, FieldArray, Form, Formik } from 'formik';
 import { IMPORT_MOVIES_PATH, MOVIES_PATH } from '../../router/route-types';
 import { useAuth } from '../../hooks/useAuth';
@@ -7,6 +7,10 @@ import NotSigned from '../../components/NotSigned/NotSigned';
 import movieSchema from './validationSchema';
 import useCreateMovie from '../../api/useCreateMovie';
 import BackButton from '../../components/BackButton/BackButton';
+import Input from '../../ui/Input/Input';
+import { createMovieInputFields, formatOptions } from './formFields';
+import StyledLink from '../../ui/StyledLink/StyledLink';
+import Button from '../../ui/Button/Button';
 
 const CreateMovie = () => {
   const { isAuth } = useAuth();
@@ -31,25 +35,16 @@ const CreateMovie = () => {
           {({values}) =>
             <Form>
               <div>
-                <div>Title</div>
-                <Field name="title" />
-                <ErrorMessage name="title" component="div" />
+                {createMovieInputFields.map(props => <Input {...props} />)}
               </div>
               <div>
-                <div>Year</div>
-                <Field name="year" />
-                <ErrorMessage name="year" component="div" />
-              </div>
-              <div>
-                <div>Format</div>
-                <Field name="format" as="select">
-                  <option value="VHS">VHS</option>
-                  <option value="DVD">DVD</option>
-                  <option value="Blu-Ray">Blu-Ray</option>
+                <div className="block mb-2 text-sm font-medium text-gray-900">Format</div>
+                <Field name="format" as="select" class="h-10 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                  {formatOptions.map(option => <option value={option}>{option}</option>)}
                 </Field>
               </div>
               <div>
-                <div>Actors</div>
+                <div className="block mb-2 text-sm font-medium text-gray-900">Actors:</div>
                 <FieldArray
                   name="actors"
                 >
@@ -58,40 +53,26 @@ const CreateMovie = () => {
                       {values.actors && values.actors.length > 0 ? (
                         values.actors.map((friend, index) => (
                           <div key={index}>
-                            <Field name={`actors.${index}`} />
-                            <button
-                              type="button"
-                              onClick={() => arrayHelpers.remove(index)}
-                            >
-                              -
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => arrayHelpers.push('')}
-                            >
-                              +
-                            </button>
+                            <Input name={`actors.${index}`} />
+                            <Button name="-" type="button" onClick={() => arrayHelpers.remove(index)} />
+                            <Button name="+" type="button" onClick={() => arrayHelpers.push('')} />
                           </div>
                         ))
                       ) : (
-                        <button type="button" onClick={() => arrayHelpers.push('')}>
-                          Add an actor
-                        </button>
+                        <Button name="Add an actor" type="button" onClick={() => arrayHelpers.push('')} />
                       )}
                     </div>
                   )}
                 </FieldArray>
-                <ErrorMessage name="actors" component="div" />
+                <ErrorMessage name="actors" component="div" className="mt-2 text-sm text-red-600" />
               </div>
-              <button type="submit" >
-                Create
-              </button>
+              <Button type="submit" name="Create"/>
             </Form>
           }
         </Formik>
         <div>
           Have file with movies and want to import?&nbsp;
-          <Link to={IMPORT_MOVIES_PATH}>Import movie</Link>
+          <StyledLink text="Import movie" to={IMPORT_MOVIES_PATH}/>
         </div>
       </div>
   );

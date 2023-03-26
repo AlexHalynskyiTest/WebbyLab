@@ -1,11 +1,14 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form } from 'formik';
 import useRegister from '../../api/useRegister';
 import { useAuth } from '../../hooks/useAuth';
 import signUpSchema from './validationSchema';
 import Signed from '../../components/Signed/Signed';
 import { MOVIES_PATH } from '../../router/route-types';
+import Input from '../../ui/Input/Input';
+import Button from '../../ui/Button/Button';
+import { signUpInputFields} from './formFields';
 
 const SignUp = () => {
   const register = useRegister();
@@ -28,28 +31,9 @@ const SignUp = () => {
         >
           <Form>
             <div>
-              <div>Name</div>
-              <Field name="name" />
-              <ErrorMessage name="name" component="div" />
+              {signUpInputFields.map(props => <Input {...props} />)}
             </div>
-            <div>
-              <div>E-mail</div>
-              <Field type="email" name="email" />
-              <ErrorMessage name="email" component="div" />
-            </div>
-            <div>
-              <div>Password</div>
-              <Field type="password" name="password" />
-              <ErrorMessage name="password" component="div" />
-            </div>
-            <div>
-              <div>Repeat password</div>
-              <Field type="password" name="confirmPassword" />
-              <ErrorMessage name="confirmPassword" component="div" />
-            </div>
-            <button type="submit" >
-              Create an account
-            </button>
+            <Button name="Create an account" type="submit" />
           </Form>
         </Formik>
       </div>

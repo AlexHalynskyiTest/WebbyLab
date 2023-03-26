@@ -1,11 +1,15 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { ErrorMessage, Field, Form, Formik } from 'formik';
+import { useNavigate } from 'react-router-dom';
+import { Form, Formik } from 'formik';
 import signInSchema from './validationSchema';
 import useLogin from '../../api/useLogin';
 import { useAuth } from '../../hooks/useAuth';
 import Signed from '../../components/Signed/Signed';
 import { SIGN_UP_PATH, MOVIES_PATH } from '../../router/route-types';
+import { signInInputFields } from './formFields';
+import Input from "../../ui/Input/Input";
+import Button from "../../ui/Button/Button";
+import StyledLink from "../../ui/StyledLink/StyledLink";
 
 const SignIn = () => {
   const login = useLogin();
@@ -28,27 +32,13 @@ const SignIn = () => {
         >
           <Form>
             <div>
-              <div>Name</div>
-              <Field name="name" />
-              <ErrorMessage name="name" component="div" />
+              {signInInputFields.map(props => <Input {...props} />)}
             </div>
-            <div>
-              <div>E-mail</div>
-              <Field type="email" name="email" />
-              <ErrorMessage name="email" component="div" />
-            </div>
-            <div>
-              <div>Password</div>
-              <Field type="password" name="password" />
-              <ErrorMessage name="password" component="div" />
-            </div>
-            <button type="submit" >
-              Login
-            </button>
+            <Button name="Login" type="submit" />
           </Form>
         </Formik>
         <div>Don't have an account?</div>
-        <Link to={SIGN_UP_PATH}>Please sign up</Link>
+        <StyledLink to={SIGN_UP_PATH} text="Please sign up" />
       </div>
   );
 };

@@ -7,6 +7,7 @@ import useGetCurMovie from '../../api/useGetCurMovie';
 import BackButton from '../../components/BackButton/BackButton';
 import useDeleteMovie from '../../api/useDeleteMovie';
 import { MOVIES_PATH } from '../../router/route-types';
+import Button from '../../ui/Button/Button';
 
 const Movie = () => {
   const { isAuth } = useAuth();
@@ -37,11 +38,11 @@ const Movie = () => {
           <div>Title: "{title}"</div>
           <div>Year: {year}</div>
           <div>Format: {format}</div>
-          <div>Actors</div>
-          <ul>
+          <div>Actors:</div>
+          <ul className="max-w-md space-y-1 list-disc list-inside">
             {actors?.map(actor => <li>{actor.name}</li>)}
           </ul>
-          <button onClick={handleDelete}>Delete movie</button>
+          <Button name="Delete movie" onClick={handleDelete}/>
         </div>
       }
     </div>
