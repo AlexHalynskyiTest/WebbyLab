@@ -1,7 +1,7 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ErrorMessage, Field, FieldArray, Form, Formik } from 'formik';
-import { MOVIES_PATH } from '../../router/route-types';
+import { IMPORT_MOVIES_PATH, MOVIES_PATH } from '../../router/route-types';
 import { useAuth } from '../../hooks/useAuth';
 import NotSigned from '../../components/NotSigned/NotSigned';
 import movieSchema from './validationSchema';
@@ -89,6 +89,10 @@ const CreateMovie = () => {
             </Form>
           }
         </Formik>
+        <div>
+          Have file with movies and want to import?&nbsp;
+          <Link to={IMPORT_MOVIES_PATH}>Import movie</Link>
+        </div>
       </div>
   );
 };

@@ -8,6 +8,7 @@ import {
   MOVIES_PATH,
   MOVIE_PATH,
   CREATE_PATH,
+  IMPORT_MOVIES_PATH,
 } from './route-types';
 
 const Home = lazy(() => import('../pages/Home/Home'));
@@ -17,6 +18,7 @@ const Profile = lazy(() => import('../pages/Profile/Profile'));
 const Movies = lazy(() => import('../pages/Movies/Movies'));
 const Movie = lazy(() => import('../pages/Movie/Movie'));
 const CreateMovie = lazy(() => import('../pages/CreateMovie/CreateMovie'));
+const ImportMovies = lazy(() => import('../pages/ImportMovies/ImportMovies'));
 
 const AppLayout = lazy(() => import('../components/Layouts/AppLayout'));
 
@@ -51,6 +53,10 @@ export const router = createBrowserRouter([
       {
         path: CREATE_PATH,
         element: <CreateMovie />,
+      },
+      {
+        path: IMPORT_MOVIES_PATH,
+        element: <ImportMovies />,
       },
     ]
   },

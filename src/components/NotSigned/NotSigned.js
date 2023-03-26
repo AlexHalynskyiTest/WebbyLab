@@ -5,8 +5,8 @@ import { SIGN_IN_PATH } from '../../router/route-types';
 const NotSigned = () => {
   return (
     <div>
-      <div>You are not authorized</div>
-      <Link to={SIGN_IN_PATH}>Please sign in to continue</Link>
+      You are not authorized. Please,&nbsp;
+      <Link to={SIGN_IN_PATH}>sign in to continue</Link>
     </div>
   );
 };
