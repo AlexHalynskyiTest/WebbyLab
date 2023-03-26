@@ -1,15 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import NotSigned from '../../components/NotSigned/NotSigned';
+import useGetCurMovie from '../../api/useGetCurMovie';
 
 const Movie = () => {
   const { isAuth } = useAuth();
   const { movieId } = useParams();
+  const getCurMovie = useGetCurMovie();
 
-  const movies = useSelector(state => state.movies.movies);
-  const { title, year, format, actors } = movies.find(movie => movie.id === Number(movieId)) || {};
+  useEffect( () => {
+    getCurMovie(movieId);
+    // eslint-disable-next-line
+  }, []);
+
+  const curMovie = useSelector(state => state.curMovie.curMovie);
+  const { title, year, format, actors } = curMovie || {};
 
   return (
     <div>
@@ -21,7 +28,7 @@ const Movie = () => {
           <div>Format: {format}</div>
           <div>Actors</div>
           <ul>
-            {actors?.map(actor => <li>{actor}</li>)}
+            {actors?.map(actor => <li>{actor.name}</li>)}
           </ul>
         </div>
       }

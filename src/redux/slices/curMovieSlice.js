@@ -1,26 +1,26 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const moviesSlice = createSlice({
-  name: 'movies',
+const curMovieSlice = createSlice({
+  name: 'curMovie',
   initialState: {
     loading: 'idle',
-    movies: [],
+    curMovie: {},
   },
   reducers: {
-    moviesLoading(state) {
+    curMovieLoading(state) {
       if (state.loading === 'idle') {
         state.loading = 'pending'
       }
     },
-    setMovies(state, action) {
+    setCurMovie(state, action) {
       if (state.loading === 'pending') {
         state.loading = 'idle'
-        state.movies = action.payload
+        state.curMovie = action.payload
       }
     },
   },
 });
 
-export const { moviesLoading, setMovies } = moviesSlice.actions;
+export const { curMovieLoading, setCurMovie } = curMovieSlice.actions;
 
-export default moviesSlice.reducer;
+export default curMovieSlice.reducer;
