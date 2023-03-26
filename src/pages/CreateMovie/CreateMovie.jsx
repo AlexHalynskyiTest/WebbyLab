@@ -6,6 +6,7 @@ import { useAuth } from '../../hooks/useAuth';
 import NotSigned from '../../components/NotSigned/NotSigned';
 import movieSchema from './validationSchema';
 import useCreateMovie from '../../api/useCreateMovie';
+import BackButton from '../../components/BackButton/BackButton';
 
 const CreateMovie = () => {
   const { isAuth } = useAuth();
@@ -21,6 +22,7 @@ const CreateMovie = () => {
     !isAuth
       ? <NotSigned />
       : <div>
+        <BackButton />
         <Formik
           initialValues={{ title: '', year: '', format: 'VHS', actors: [''] }}
           validationSchema={movieSchema}

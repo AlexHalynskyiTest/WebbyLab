@@ -7,13 +7,13 @@ const useGetMovies = () => {
   const api = useApi();
   const dispatch = useDispatch();
 
-  const getMovies = async () => {
+  const getMovies = async (sortParam, order, search) => {
     if (!api) {
       console.error('Not authorized');
       return;
     }
     dispatch(moviesLoading());
-    const { data } = await api.get(MOVIES_PATH);
+    const { data } = await api.get(MOVIES_PATH + `?sort=${sortParam}&order=${order}` + (search.length > 1 ? `&search=${search}` : ''));
     dispatch(setMovies(data.data));
   }
   return getMovies;

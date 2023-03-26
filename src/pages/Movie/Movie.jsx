@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import NotSigned from '../../components/NotSigned/NotSigned';
 import useGetCurMovie from '../../api/useGetCurMovie';
+import BackButton from '../../components/BackButton/BackButton';
 
 const Movie = () => {
   const { isAuth } = useAuth();
@@ -23,6 +24,7 @@ const Movie = () => {
       {!isAuth && <NotSigned />}
       {isAuth &&
         <div>
+          <BackButton />
           <div>Title: "{title}"</div>
           <div>Year: {year}</div>
           <div>Format: {format}</div>
