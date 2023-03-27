@@ -39,7 +39,7 @@ const CreateMovie = () => {
               </div>
               <div>
                 <div className="block mb-2 text-sm font-medium text-gray-900">Format</div>
-                <Field name="format" as="select" class="h-10 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                <Field name="format" as="select" className="h-10 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                   {formatOptions.map(option => <option value={option}>{option}</option>)}
                 </Field>
               </div>

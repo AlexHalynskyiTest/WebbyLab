@@ -5,6 +5,7 @@ const moviesSlice = createSlice({
   initialState: {
     loading: 'idle',
     movies: [],
+    moviesTotal: 0,
   },
   reducers: {
     moviesLoading(state) {
@@ -15,7 +16,8 @@ const moviesSlice = createSlice({
     setMovies(state, action) {
       if (state.loading === 'pending') {
         state.loading = 'idle'
-        state.movies = action.payload
+        state.movies = action.payload.data
+        state.moviesTotal = action.payload.meta.total
       }
     },
   },

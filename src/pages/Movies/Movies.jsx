@@ -16,20 +16,22 @@ const Movies = () => {
   const getMovies = useGetMovies();
   const navigate = useNavigate();
   const [search, setSearch] = useState('');
+  const [limit, setLimit] = useState(10);
 
   const debouncedResults = useMemo(() => {
     return debounce((e) => setSearch(e.target.value), SEARCH_DEBOUNCE_TIME_MS);
   }, []);
 
   useEffect( () => {
-    getMovies('title', 'ASC', search);
+    getMovies('title', 'ASC', search, limit);
     return () => {
       debouncedResults.cancel();
     };
     // eslint-disable-next-line
-  }, [search]);
+  }, [search, limit]);
 
   const movies = useSelector(state => state.movies.movies);
+  const moviesTotal = useSelector(state => state.movies.moviesTotal);
 
   return (
     <div>
@@ -41,7 +43,13 @@ const Movies = () => {
           <ol className="p-4 list-decimal">
             {movies?.map((movie) => <li key={movie.id}><StyledLink text={`${movie.title} (${movie.year})`} to={String(movie.id)} /></li>)}
           </ol>
-          {!movies?.length && <div>There is nothing to show</div>}
+          {moviesTotal - limit > 0
+            ? <div>
+                <Button name="Show 10 more" onClick={() => setLimit((prev) => prev + 10)}/>
+                <Button name="Show all" onClick={() => setLimit(moviesTotal)}/>
+              </div>
+            : <div>{moviesTotal > 0 ? 'All movies shown' : 'There is nothing to show'}</div>
+          }
         </div>
       }
     </div>
