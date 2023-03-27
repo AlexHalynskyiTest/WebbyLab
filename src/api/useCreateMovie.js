@@ -9,7 +9,8 @@ const useCreateMovie = () => {
       console.error('Not authorized');
       return;
     }
-    await api.post(MOVIES_PATH, movie);
+    const { data } = await api.post(MOVIES_PATH, movie);
+    return data
   }
   return createMovie;
 };

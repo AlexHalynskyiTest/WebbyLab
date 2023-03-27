@@ -17,6 +17,7 @@ const Movie = () => {
   const deleteMovie = useDeleteMovie();
   const navigate = useNavigate();
   const [isShown, setShown] = useState(false);
+  const [deletionStatus, setStatus] = useState(false);
 
   useEffect( () => {
     getCurMovie(movieId);
@@ -25,8 +26,13 @@ const Movie = () => {
 
   const handleDelete = async () => {
     setShown(false);
-    await deleteMovie(movieId);
+    const { status } = await deleteMovie(movieId);
+    setStatus(status);
+  }
+
+  const handleOkay = () => {
     navigate(MOVIES_PATH);
+    setStatus(false);
   }
 
   const curMovie = useSelector(state => state.curMovie.curMovie);
@@ -54,6 +60,13 @@ const Movie = () => {
             text={`Are you sure you want to delete "${title}"?`}
             yesButtonName='Yes, sure'
             noButtonName='Cancel'
+          />
+          <Modal
+            isShown={typeof deletionStatus === 'number'}
+            onClose={handleOkay}
+            header='Deletion status'
+            text={`Your deletion of "${title}" was ${deletionStatus ? 'successful' : 'unsuccessful'}`}
+            noButtonName='Okay'
           />
         </div>
       }

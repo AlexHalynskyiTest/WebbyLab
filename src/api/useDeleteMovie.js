@@ -9,7 +9,8 @@ const useDeleteMovie = () => {
       console.error('Not authorized');
       return;
     }
-    await api.delete(MOVIE_PATH.replace('{movieID}', movieId));
+    const { data } = await api.delete(MOVIE_PATH.replace('{movieID}', movieId));
+    return data
   }
   return deleteMovie;
 };

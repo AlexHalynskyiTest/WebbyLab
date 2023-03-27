@@ -11,7 +11,8 @@ const useImportMovies = () => {
     }
     const formdata = new FormData();
     formdata.append("movies", file, file.name);
-    await api.post(IMPORT_MOVIES_PATH, formdata);
+    const { data } = await api.post(IMPORT_MOVIES_PATH, formdata);
+    return data
   }
   return importMovies;
 };

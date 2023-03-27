@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ErrorMessage, Field, FieldArray, Form, Formik } from 'formik';
 import { IMPORT_MOVIES_PATH, MOVIES_PATH } from '../../router/route-types';
@@ -11,14 +11,21 @@ import Input from '../../ui/Input/Input';
 import { createMovieInputFields, formatOptions } from './formFields';
 import StyledLink from '../../ui/StyledLink/StyledLink';
 import Button from '../../ui/Button/Button';
+import Modal from '../../ui/Modal/Modal';
 
 const CreateMovie = () => {
   const { isAuth } = useAuth();
   const createMovie = useCreateMovie();
   const navigate = useNavigate();
+  const [creationStatus, setStatus] = useState(false);
 
   const handleCreate = async (values) => {
-    await createMovie(values)
+    const { status } = await createMovie(values)
+    setStatus(status);
+  }
+
+  const handleOkay = () => {
+    setStatus(false)
     navigate(MOVIES_PATH)
   }
 
@@ -74,6 +81,13 @@ const CreateMovie = () => {
           Have file with movies and want to import?&nbsp;
           <StyledLink text="Import movie" to={IMPORT_MOVIES_PATH}/>
         </div>
+        <Modal
+          isShown={typeof creationStatus === 'number'}
+          onClose={handleOkay}
+          header='Creation status'
+          text={`Your creation of movie was ${creationStatus ? 'successful' : 'unsuccessful'}`}
+          noButtonName='Okay'
+        />
       </div>
   );
 };
