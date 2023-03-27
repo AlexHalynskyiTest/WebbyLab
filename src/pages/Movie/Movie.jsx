@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
@@ -8,6 +8,7 @@ import BackButton from '../../components/BackButton/BackButton';
 import useDeleteMovie from '../../api/useDeleteMovie';
 import { MOVIES_PATH } from '../../router/route-types';
 import Button from '../../ui/Button/Button';
+import Modal from '../../ui/Modal/Modal';
 
 const Movie = () => {
   const { isAuth } = useAuth();
@@ -15,6 +16,7 @@ const Movie = () => {
   const getCurMovie = useGetCurMovie();
   const deleteMovie = useDeleteMovie();
   const navigate = useNavigate();
+  const [isShown, setShown] = useState(false);
 
   useEffect( () => {
     getCurMovie(movieId);
@@ -22,6 +24,7 @@ const Movie = () => {
   }, []);
 
   const handleDelete = async () => {
+    setShown(false);
     await deleteMovie(movieId);
     navigate(MOVIES_PATH);
   }
@@ -42,7 +45,16 @@ const Movie = () => {
           <ul className="max-w-md space-y-1 list-disc list-inside">
             {actors?.map(actor => <li>{actor.name}</li>)}
           </ul>
-          <Button name="Delete movie" onClick={handleDelete}/>
+          <Button name="Delete movie" onClick={() => setShown(true)}/>
+          <Modal
+            isShown={isShown}
+            onClose={() => setShown(false)}
+            onAccept={handleDelete}
+            header='Delete movie'
+            text={`Are you sure you want to delete "${title}"?`}
+            yesButtonName='Yes, sure'
+            noButtonName='Cancel'
+          />
         </div>
       }
     </div>
