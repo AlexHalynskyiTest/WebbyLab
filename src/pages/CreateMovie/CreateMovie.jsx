@@ -18,15 +18,19 @@ const CreateMovie = () => {
   const createMovie = useCreateMovie();
   const navigate = useNavigate();
   const [creationStatus, setStatus] = useState(false);
+  const [error, setError] = useState('');
 
   const handleCreate = async (values) => {
-    const { status } = await createMovie(values)
+    const { status, error } = await createMovie(values)
     setStatus(status);
+    if (error && error.code === "MOVIE_EXISTS") {
+      setError('Movie with such name is already exist. Duplicates are not allowed')
+    }
   }
 
   const handleOkay = () => {
+    creationStatus && navigate(MOVIES_PATH)
     setStatus(false)
-    navigate(MOVIES_PATH)
   }
 
   return (
@@ -85,7 +89,7 @@ const CreateMovie = () => {
           isShown={typeof creationStatus === 'number'}
           onClose={handleOkay}
           header='Creation status'
-          text={`Your creation of movie was ${creationStatus ? 'successful' : 'unsuccessful'}`}
+          text={`Your creation of movie was ${creationStatus ? 'successful' : 'unsuccessful'}. ${error}`}
           noButtonName='Okay'
         />
       </div>
