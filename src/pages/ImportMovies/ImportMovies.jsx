@@ -15,19 +15,37 @@ const ImportMovies = () => {
   const [file, setFile] = useState();
   const ref = useRef();
   const [importStatus, setStatus] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleImportFile = () => {
-    setFile(ref.current.files[0]);
+  const handleImportFile = (event) => {
+    const importedFile = ref.current.files[0]
+    const { type, size } = importedFile
+    if (type !== 'text/plain') {
+      setStatus(0)
+      setFile(null)
+      setError('Wrong type of file. Only .txt files are acceptable.')
+      event.target.value = null
+    } else if (size === 0) {
+      setStatus(0)
+      setFile(null)
+      setError('Wrong content of file, file could not be empty.')
+      event.target.value = null
+    } else {
+      setFile(importedFile);
+      setError('')
+    }
   }
 
   const handleSaveFile = async () => {
-    const { status } = await importMovies(file);
-    setStatus(status);
+    if (file) {
+      const { status } = await importMovies(file);
+      setStatus(status);
+    }
   }
 
   const handleOkay = () => {
+    importStatus && navigate(MOVIES_PATH)
     setStatus(false)
-    navigate(MOVIES_PATH)
   }
 
   return (
@@ -42,7 +60,7 @@ const ImportMovies = () => {
             isShown={typeof importStatus === 'number'}
             onClose={handleOkay}
             header='Import status'
-            text={`Your import of movies was ${importStatus ? 'successful' : 'unsuccessful'}`}
+            text={`Your import of movies was ${importStatus ? 'successful' : 'unsuccessful'}. ${error}`}
             noButtonName='Okay'
           />
         </div>
